@@ -128,7 +128,12 @@
     </div>
     <script>
     const title = document.getElementById('title');
-document.addEventListener('mousemove', (e) => {const rect = title.getBoundingClientRect();if (e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom) {const moveX = (e.clientX - window.innerWidth / 2) / 20;const moveY = (e.clientY - window.innerHeight / 2) / 20;title.style.transform = translate(${moveX}px, ${moveY}px);}});
+document.addEventListener('mousemove', (e) => {const rect = title.getBoundingClientRect();
+if (e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom) {
+    // 这里添加让元素跟随鼠标移动的代码，比如改变元素的left和top样式
+    title.style.left = e.clientX + 'px';
+    title.style.top = e.clientY + 'px';
+}
         </script>
 </body>
 </html>
