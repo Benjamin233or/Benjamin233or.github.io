@@ -32,20 +32,6 @@
     padding: 20px;
     margin: 0;
 }
-        #title {
-    /* 保留你原来的字体样式 */
-    font-family: 'Betania Patmos';
-    /* 必须加的定位属性 */
-    position: absolute;  /* 绝对定位，才能用left/top调整位置 */
-    pointer-events: none; /* 可选：避免文字挡住鼠标检测，体验更好 */
-            transition: transform 0.3s ease;
-  
-  /* 下面这行就是你要的渐变阴影！ */
-          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-}
-         #title：hover { transform: scale(1.1); }
-}
-
 
         /* 顶部导航栏 */
         nav {
@@ -90,7 +76,7 @@
   /* 下面这行就是你要的渐变阴影！ */
           text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
           font-family: 'Betania Patmos'
-      }.hero h1:hover { transform: scale(1.1); }
+      }.hero h1:hover { transform: scale(1.2); }
         
 
         /* 底部自我介绍 */
@@ -115,7 +101,6 @@
             line-height: 1.8;
             color: #555;
         }
-        #title { position: absolute; }
     </style>
 </head>
 <body>
@@ -129,7 +114,7 @@
 
     <!-- 中间名字 -->
     <div class="hero" id="home">
-        <h1 id="title">Orlando</h1>
+        <h1>Orlando</h1>
     </div>
 
     <!-- 底部自我介绍 -->
@@ -141,25 +126,6 @@
             如果你对我的项目感兴趣，或者想交流技术，欢迎通过下方的方式联系我。
         </p >
     </div>
-    <script>
-    // 获取标题元素
-const title = document.getElementById('title');
-
-// 监听鼠标移动事件
-document.addEventListener('mousemove', (e) => {
-    // 先判断标题元素是否存在，避免报错
-    if (!title) return;
-    
-    const rect = title.getBoundingClientRect();
-    // 检测鼠标是否在标题元素范围内
-    if (e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom) {
-        // 让标题跟随鼠标移动（可以调整偏移量，比如-10、-10让文字不贴鼠标）
-        title.style.left = (e.clientX - 10) + 'px';
-        title.style.top = (e.clientY - 10) + 'px';
-    }
-});
-}
-        </script>
 </body>
 </html>
 
