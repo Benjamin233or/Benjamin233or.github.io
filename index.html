@@ -38,7 +38,14 @@
     /* 必须加的定位属性 */
     position: absolute;  /* 绝对定位，才能用left/top调整位置 */
     pointer-events: none; /* 可选：避免文字挡住鼠标检测，体验更好 */
+            transition: transform 0.3s ease;
+  
+  /* 下面这行就是你要的渐变阴影！ */
+          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
 }
+         #title：hover { transform: scale(1.1); }
+}
+
 
         /* 顶部导航栏 */
         nav {
