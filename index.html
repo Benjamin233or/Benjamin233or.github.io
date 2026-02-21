@@ -76,7 +76,7 @@
   /* 下面这行就是你要的渐变阴影！ */
           text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
           font-family: 'Betania Patmos'
-      }.hero h1:hover { transform: scale(1.2); }
+      }.hero h1:hover { transform: scale(1.1); }
         
 
         /* 底部自我介绍 */
@@ -126,12 +126,14 @@
             如果你对我的项目感兴趣，或者想交流技术，欢迎通过下方的方式联系我。
         </p >
     </div>
+    <script>
     const title = document.getElementById('title');
 document.addEventListener('mousemove', (e) => {
   const moveX = (e.clientX - window.innerWidth / 2) / 20;
   const moveY = (e.clientY - window.innerHeight / 2) / 20;
   title.style.transform = `translate(${moveX}px, ${moveY}px)`;
 });
+        </script>
 </body>
 </html>
 
