@@ -114,7 +114,7 @@
 
     <!-- 中间名字 -->
     <div class="hero" id="home">
-        <h1>Orlando</h1>
+        <h1 id="title">Orlando</h1>
     </div>
 
     <!-- 底部自我介绍 -->
@@ -126,6 +126,12 @@
             如果你对我的项目感兴趣，或者想交流技术，欢迎通过下方的方式联系我。
         </p >
     </div>
+    const title = document.getElementById('title');
+document.addEventListener('mousemove', (e) => {
+  const moveX = (e.clientX - window.innerWidth / 2) / 20;
+  const moveY = (e.clientY - window.innerHeight / 2) / 20;
+  title.style.transform = `translate(${moveX}px, ${moveY}px)`;
+});
 </body>
 </html>
 
