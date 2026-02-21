@@ -128,11 +128,7 @@
     </div>
     <script>
     const title = document.getElementById('title');
-document.addEventListener('mousemove', (e) => {
-  const moveX = (e.clientX - window.innerWidth / 2) / 20;
-  const moveY = (e.clientY - window.innerHeight / 2) / 20;
-  title.style.transform = `translate(${moveX}px, ${moveY}px)`;
-});
+document.addEventListener('mousemove', (e) => {const rect = title.getBoundingClientRect();if (e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom) {const moveX = (e.clientX - window.innerWidth / 2) / 20;const moveY = (e.clientY - window.innerHeight / 2) / 20;title.style.transform = translate(${moveX}px, ${moveY}px);}});
         </script>
 </body>
 </html>
