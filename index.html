@@ -3,147 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benjamin 的个人主页</title>
+    <title>Orlando 的个人主页</title>
     <style>
+        /* 全局重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-      body {
-    /* 背景图片设置 */
-    background-image: url("homepage1.png"); /* 这里的文件名要和你上传的一致 */
-    background-size: cover; /* 让图片铺满整个屏幕 */
-    background-position: center; /* 让图片居中显示 */
-    background-repeat: no-repeat; /* 禁止图片重复平铺 */
-    background-attachment: fixed; /* 让背景图片固定，不随页面滚动 */
-    
-    /* 保持之前的布局和文字样式 */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #000000; /* 文字改成白色，方便在深色背景上看清 */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    margin: 0;
-}
-        /* 导航栏 */
-        nav {
-            background-color: #161b22;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #30363d;
+
+        /* 页面整体 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        /* 顶部导航栏 */
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
         nav a {
-            color: #e6edf3;
+            color: #fff;
             text-decoration: none;
             margin-right: 1.5rem;
-            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
         }
+
         nav a:hover {
-            color: #58a6ff;
+            color: #0070f3;
         }
-        /* 主容器 */
-        .container {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-        /* 个人介绍 */
-        .profile {
-            text-align: bottom;
-            margin-bottom: 3rem;
-        }
-        .profile h1 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-        .profile p {
-            font-size: 1.1rem;
-            color: #8b949e;
-        }
-        /* 作品展示 */
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .project-card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 1.5rem;
-        }
-        .project-card h3 {
-            color: #58a6ff;
-            margin-bottom: 0.5rem;
-        }
-        .project-card p {
-            color: #8b949e;
-            font-size: 0.9rem;
-        }
-        /* 页脚 */
-        footer {
+
+        /* 中间名字区域 */
+        .hero {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
             padding: 2rem;
-            color: #8b949e;
-            border-top: 1px solid #30363d;
-            margin-top: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #222;
+        }
+
+        /* 底部自我介绍 */
+        .intro {
+            background-color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .intro h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #222;
+        }
+
+        .intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- 顶部导航 -->
     <nav>
         <a href=" ">首页</a >
         <a href="#about">关于我</a >
-        <a href="#projects">作品</a >
+        <a href="#works">作品</a >
         <a href="#contact">联系</a >
     </nav>
 
-    <!-- 主内容 -->
-    <div class="container">
-        <div class="profile" id="home">
-            <h1>Benjamin233or</h1>
-            <p>一个热爱技术与创作的开发者</p >
-        </div>
-
-        <div id="about">
-            <h2>关于我</h2>
-            <p>你好！我是 Benjamin233or，喜欢探索编程、游戏开发和网页设计。这个网站是我用 GitHub Pages 搭建的个人主页，用来分享我的作品和想法。</p >
-        </div>
-
-        <div id="projects">
-            <h2>我的作品</h2>
-            <div class="projects">
-                <div class="project-card">
-                    <h3>项目一</h3>
-                    <p>这是我的第一个开源项目，专注于解决某个有趣的问题。</p >
-                </div>
-                <div class="project-card">
-                    <h3>项目二</h3>
-                    <p>一个使用现代前端技术构建的响应式网站。</p >
-                </div>
-                <div class="project-card">
-                    <h3>项目三</h3>
-                    <p>一个有趣的小游戏，用 JavaScript 开发。</p >
-                </div>
-            </div>
-        </div>
-
-        <div id="contact">
-            <h2>联系我</h2>
-            <p>GitHub: <a href="https://github.com/Benjamin233or" style="color: #58a6ff;">@Benjamin233or</a ></p >
-        </div>
+    <!-- 中间名字 -->
+    <div class="hero" id="home">
+        <h1>Orlando</h1>
     </div>
 
-    <!-- 页脚 -->
-    <footer>
-        <p>&copy; 2026 Benjamin233or. 用 ❤️ 与 GitHub Pages 构建</p >
-    </footer>
+    <!-- 底部自我介绍 -->
+    <div class="intro" id="about">
+        <h2>关于我</h2>
+        <p>
+            你好，我是 Orlando，一个热爱技术与创作的开发者。我喜欢探索编程、游戏开发和网页设计，享受将想法转化为现实的过程。
+            这个网站是我用 GitHub Pages 搭建的个人主页，用来分享我的作品和感悟。
+            如果你对我的项目感兴趣，或者想交流技术，欢迎通过下方的方式联系我。
+        </p >
+    </div>
 </body>
 </html>
