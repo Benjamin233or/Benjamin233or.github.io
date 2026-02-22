@@ -191,10 +191,13 @@
   transition: all 0.4s ease;
 }
 .modal.show {
+  display: flex;
   opacity: 1;
   visibility: visible;
 }
 #modal-img {
+  max-width: 90%;
+  max-height: 80vh;
   transform: scale(0.8);
   opacity: 0;
   transition: transform 0.45s ease, opacity 0.4s ease;
@@ -290,9 +293,8 @@ background-size: 200% 100%;
   <h1 style="font-family: 'Noto Serif TC', serif; font-weight: 700;">我的作品</h1>
   <div class="works-grid">
 
-    <!-- 原来 3 张 -->
     <div class="work-card" data-img="mine2.png" data-title="作品一" data-desc="上野站平视">
-      <img src="mine2.png">
+      < img src="mine2.png">
       <div class="work-info">
         <h3>作品一</h3>
         <span class="desc-font">上野站平视</span>
@@ -300,7 +302,7 @@ background-size: 200% 100%;
     </div>
 
     <div class="work-card" data-img="mine1.png" data-title="作品二" data-desc="上野站俯视列车进站">
-      <img src="mine1.png">
+      < img src="mine1.png">
       <div class="work-info">
         <h3>作品二</h3>
         <span class="desc-font">上野站俯视列车进站</span>
@@ -308,16 +310,15 @@ background-size: 200% 100%;
     </div>
 
     <div class="work-card" data-img="mine5.png" data-title="作品三" data-desc="庄园挑空客厅装饰">
-      <img src="mine5.png">
+      < img src="mine5.png">
       <div class="work-info">
         <h3>作品三</h3>
         <span class="desc-font">庄园挑空客厅装饰</span>
       </div>
     </div>
 
-    <!-- 新加 3 张，你自己改图片和名字 -->
     <div class="work-card" data-img="raining.png" data-title="作品四" data-desc="雨中的川上站">
-      <img src="raining.png">
+      < img src="raining.png">
       <div class="work-info">
         <h3>作品四</h3>
         <span class="desc-font">雨中的川上站</span>
@@ -325,7 +326,7 @@ background-size: 200% 100%;
     </div>
 
     <div class="work-card" data-img="station2.png" data-title="作品五" data-desc="阳光明媚的川上站">
-      <img src="station2.png">
+      < img src="station2.png">
       <div class="work-info">
         <h3>作品五</h3>
         <span class="desc-font">阳光明媚的川上站</span>
@@ -333,7 +334,7 @@ background-size: 200% 100%;
     </div>
 
     <div class="work-card" data-img="station night.png" data-title="作品六" data-desc="夜晚中静谧的川上站">
-      <img src="station night.png">
+      < img src="station night.png">
       <div class="work-info">
         <h3>作品六</h3>
         <span class="desc-font">夜晚中静谧的川上站</span>
@@ -383,7 +384,7 @@ background-size: 200% 100%;
   }
 
   cards.forEach((c,i) => c.onclick = () => openModal(i))
-  close.onclick = () => closeModal()
+  close.onclick = closeModal
   prev.onclick = () => openModal((current-1+cards.length)%cards.length)
   next.onclick = () => openModal((current+1)%cards.length)
 </script>
