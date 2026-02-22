@@ -277,30 +277,33 @@
   opacity: 1;
   transform: translateY(0);
 }
-    /* 卡片外围动态环绕光圈 —— 不影响任何原有效果 */
+    /* 🔥 修好的：鼠标悬浮动态旋转环绕光 */
 .work-card {
-  position: relative;
+  position: relative !important;
 }
-.work-card::before {
+.work-card::after {
   content: '';
   position: absolute;
-  inset: -3px;
-  border-radius: 12px;
+  left: -4px;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 14px;
   background: conic-gradient(
-    #ffffff00, 
-    #ffffff44, 
-    #ffffff00
+    transparent 0deg,
+    rgba(255, 255, 255, 0.3) 180deg,
+    transparent 360deg
   );
   z-index: -1;
   opacity: 0;
-  filter: blur(6px);
+  border-radius: 12px;
+  filter: blur(10px);
   transition: opacity 0.4s ease;
 }
-.work-card:hover::before {
+.work-card:hover::after {
   opacity: 1;
-  animation: rotateLight 2.5s linear infinite;
+  animation: rotateLight 3s linear infinite;
 }
-
 @keyframes rotateLight {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
