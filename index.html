@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Orlando 的个人主页</title>
     <style>
         /* 全局重置 */
@@ -13,25 +13,23 @@
         }
 
         /* 页面整体 */
-      body {
-    /* 背景图片设置 */
-    background-image: url("homepage1.png"); /* 这里的文件名要和你上传的一致 */
-    background-size: cover; /* 让图片铺满整个屏幕 */
-    background-position: center; /* 让图片居中显示 */
-    background-repeat: no-repeat; /* 禁止图片重复平铺 */
-    background-attachment: fixed; /* 让背景图片固定，不随页面滚动 */
-    
-    /* 保持之前的布局和文字样式 */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #ffffff; /* 文字改成白色，方便在深色背景上看清 */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    margin: 0;
-}
+        body {
+            background-image: url("homepage1.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
 
         /* 顶部导航栏 */
         nav {
@@ -42,14 +40,16 @@
             left: 0;
             right: 0;
             z-index: 100;
+            text-align: center;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
-            margin-right: 1.5rem;
+            margin: 0 0.5rem;
             font-size: 1rem;
             transition: color 0.2s;
+            display: inline-block;
         }
 
         nav a:hover {
@@ -67,16 +67,15 @@
             padding-top: 100px;
         }
 
-     .hero h1 {
-    font-size: 5.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    font-family: 'Betania Patmos';
-    transition: transform 0.15s ease-out;
-    cursor: pointer;
-}
-        
+        .hero h1 {
+            font-size: 5.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            font-family: 'Betania Patmos';
+            transition: transform 0.15s ease-out;
+            cursor: pointer;
+        }
 
         /* 底部自我介绍 */
         .intro {
@@ -85,6 +84,7 @@
             padding: 2rem 2rem;
             text-align: center;
             margin: 2rem;
+            max-width: 90%;
         }
 
         .intro h2 {
@@ -101,50 +101,71 @@
             color: #555;
         }
 
-        /* 下拉菜单容器 */
-.dropdown {
-  display: inline-block;
-  position: relative;
-}
+        /* 下拉菜单 */
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
 
-/* 下拉按钮样式 */
-.dropbtn {
-  color: inherit;
-  text-decoration: none;
-  padding: 8px 16px;
-  display: inline-block;
-}
+        .dropbtn {
+            color: inherit;
+            text-decoration: none;
+            padding: 8px 16px;
+            display: inline-block;
+        }
 
-/* 子菜单默认隐藏 */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #333;
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  z-index: 1;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
 
-/* 子菜单项样式 */
-.dropdown-content a {
-  color: white;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            margin:0;
+        }
 
-/* 鼠标悬停时显示子菜单 */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-/* 子菜单项悬停效果 */
-.dropdown-content a:hover {
-  background-color: #555;
-}
+        .dropdown-content a:hover {
+            background-color: #555;
+        }
+
+        /* ====================================== */
+        /* 手机真正能用的 横竖屏适配（我帮你重写了） */
+        /* ====================================== */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 3rem !important;
+            }
+            .intro {
+                padding: 1.2rem;
+            }
+            nav a {
+                font-size: 0.9rem;
+                margin: 0 0.3rem;
+            }
+        }
+
+        @media (max-width: 900px) and (orientation: landscape) {
+            .hero h1 {
+                font-size: 3.5rem !important;
+            }
+            nav {
+                padding: 0.5rem 1rem;
+            }
+        }
     </style>
     
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -153,20 +174,20 @@
     
 </head>
 <body>
+
     <!-- 顶部导航 -->
     <nav>
-        <a href="index.html">首页</a >
-        <a href="#about">关于我</a >
+        <a href="index.html">首页</a>
+        <a href="#about">关于我</a>
         <div class="dropdown">
-          <a href="works.html" class="dropbtn">作品</a>
-          <div class="dropdown-content">
-              <a herf="#web">小镇系列</a>
-              <a herf="#web">城市系列</a>
-              <a herf="#web">更多</a>
-          </div>
+            <a href="works.html" class="dropbtn">作品</a>
+            <div class="dropdown-content">
+                <a href="#web">小镇系列</a>
+                <a href="#web">城市系列</a>
+                <a href="#web">更多</a>
+            </div>
         </div>
-        <a href="contact.html">联系</a >
-            
+        <a href="contact.html">联系</a>
     </nav>
 
     <!-- 中间名字 -->
@@ -181,34 +202,34 @@
             你好，我是 Orlando，一个热爱技术与创作的开发者。我喜欢探索编程、游戏开发和网页设计，享受将想法转化为现实的过程。
             这个网站是我用 GitHub Pages 搭建的个人主页，用来分享我的作品和感悟。
             如果你对我的项目感兴趣，或者想交流技术，欢迎通过下方的方式联系我。
-        </p >
+        </p>
     </div>
 
     <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const title = document.querySelector(".hero h1");
+        document.addEventListener("DOMContentLoaded", () => {
+            const title = document.querySelector(".hero h1");
 
-    title.addEventListener("mouseenter", () => {
-        title.style.transform = "scale(1.1)";
-    });
+            title.addEventListener("mouseenter", () => {
+                title.style.transform = "scale(1.1)";
+            });
 
-    title.addEventListener("mousemove", (e) => {
-        const rect = title.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+            title.addEventListener("mousemove", (e) => {
+                const rect = title.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
 
-        const moveX = (x - rect.width / 2) / 20;
-        const moveY = (y - rect.height / 2) / 20;
+                const moveX = (x - rect.width / 2) / 20;
+                const moveY = (y - rect.height / 2) / 20;
 
-        title.style.transform =
-            `translate(${moveX}px, ${moveY}px) scale(1.1)`;
-    });
+                title.style.transform =
+                    `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+            });
 
-    title.addEventListener("mouseleave", () => {
-        title.style.transform = "translate(0,0) scale(1)";
-    });
-});
-</script>
+            title.addEventListener("mouseleave", () => {
+                title.style.transform = "translate(0,0) scale(1)";
+            });
+        });
+    </script>
     
 </body>
 </html>
