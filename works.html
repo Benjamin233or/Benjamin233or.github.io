@@ -270,6 +270,20 @@ background-size: 200% 100%;
   100% { background-position: 200% 0; }
 }
 
+    .music-box {
+  text-align: center;
+  margin: 15px 0;
+}
+.music-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #a0d2eb;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -291,6 +305,21 @@ background-size: 200% 100%;
 
 <div class="container">
   <h1 style="font-family: 'Noto Serif TC', serif; font-weight: 700;">我的作品</h1>
+  
+  .music-box {
+  text-align: center;
+  margin: 15px 0;
+}
+.music-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #a0d2eb;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+  
   <div class="works-grid">
 
     <div class="work-card" data-img="mine2.png" data-title="作品一" data-desc="上野站平视">
@@ -411,6 +440,22 @@ background-size: 200% 100%;
   close.onclick = closeModal
   prev.onclick = () => openModal((current-1+cards.length)%cards.length)
   next.onclick = () => openModal((current+1)%cards.length)
+
+  const audio = document.getElementById('bgm');
+const musicBtn = document.querySelector('.music-btn');
+let isPlaying = false;
+
+function toggleMusic() {
+  if (isPlaying) {
+    audio.pause();
+    musicBtn.textContent = "🎵 播放音乐";
+  } else {
+    audio.play();
+    musicBtn.textContent = "⏸ 暂停音乐";
+  }
+  isPlaying = !isPlaying;
+}
+  
 </script>
 
 </body>
