@@ -132,15 +132,28 @@
     </div>
 
     <script>
-title.addEventListener("mousemove", (e) => {
-    const rect = title.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+document.addEventListener("DOMContentLoaded", () => {
+    const title = document.querySelector(".hero h1");
 
-    const moveX = (x - rect.width / 2) / 20;
-    const moveY = (y - rect.height / 2) / 20;
+    title.addEventListener("mouseenter", () => {
+        title.style.transform = "scale(1.1)";
+    });
 
-    title.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+    title.addEventListener("mousemove", (e) => {
+        const rect = title.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const moveX = (x - rect.width / 2) / 20;
+        const moveY = (y - rect.height / 2) / 20;
+
+        title.style.transform =
+            `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+    });
+
+    title.addEventListener("mouseleave", () => {
+        title.style.transform = "translate(0,0) scale(1)";
+    });
 });
 </script>
     
