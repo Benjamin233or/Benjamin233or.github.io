@@ -229,6 +229,54 @@
 .works-grid:has(.work-card:nth-child(1):hover) .container h1 {
   margin-bottom: 30px !important;
 }
+
+    /* 弹窗图片平滑动画 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+
+  /* 新加：弹窗淡入淡出 */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 图片从卡片放大动画 */
+#modal-img {
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 0.45s ease, opacity 0.4s ease;
+}
+.modal.show #modal-img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* 弹窗信息排版更好看 */
+.modal .info {
+  margin-top: 12px;
+  text-align: center;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.45s ease 0.1s;
+}
+.modal.show .info {
+  opacity: 1;
+  transform: translateY(0);
+}
     
   </style>
 </head>
@@ -313,11 +361,21 @@
     modalImg.src = card.dataset.img
     modalTitle.innerText = card.dataset.title
     modalDesc.innerText = card.dataset.desc
+
+    // 显示弹窗 + 动画
     modal.style.display = 'flex'
+    setTimeout(() => modal.classList.add('show'), 10)
+  }
+
+  function closeModal() {
+    modal.classList.remove('show')
+    setTimeout(() => {
+      modal.style.display = 'none'
+    }, 450)
   }
 
   cards.forEach((c,i) => c.onclick = () => openModal(i))
-  close.onclick = () => modal.style.display = 'none'
+  close.onclick = () => closeModal()
   prev.onclick = () => openModal((current-1+cards.length)%cards.length)
   next.onclick = () => openModal((current+1)%cards.length)
 </script>
