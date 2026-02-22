@@ -1,141 +1,273 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的作品</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的作品</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    body {
+      background: #ffffff;
+      color: #333333;
+      font-family: Arial, sans-serif;
+      padding-top: 90px;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #ffffff;
+      box-shadow: 0 0 5px #ccc;
+      padding: 1rem;
+      text-align: center;
+      z-index: 999;
+    }
+
+    nav a {
+      color: #333;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 16px;
+    }
+
+    .dropdown {
+      display: inline-block;
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #222;
+      min-width: 160px;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px;
+      margin: 0;
+      color: #fff;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .work-card {
+      background: #f5f5f5;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .work-info {
+      padding: 15px;
+    }
+
+    @media (max-width:768px) {
+      .works-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    h1, h2, h3 {
+      color: #222;
+    }
+    p {
+      color: #666;
+    }
+
+    .desc-font {
+      font-family: 'Noto Serif TC', serif;
+      font-weight: 400;
+      color: #666;
+    }
+
+/* 聚光灯 + 移开避让 + 标题上浮 */
+.works-grid::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.07);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+.works-grid:hover::before {
+  opacity: 1;
 }
 
-body{
-  font-family: 'Noto Serif TC', serif;
-  background:#fff;
-  padding-top:80px;
+.works-grid:hover .work-card {
+  filter: blur(2px) brightness(0.92);
+  opacity: 0.8;
+  transition: all 0.4s ease;
 }
 
-/* 导航 */
-nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,0.05);
-  text-align:center;
-  padding:18px;
-  z-index:1000;
+.works-grid .work-card:hover {
+  filter: blur(0) brightness(1);
+  opacity: 1;
+  transform: scale(1.12);
+  box-shadow: 0 18px 32px rgba(0,0,0,0.18);
+  z-index: 10;
 }
 
-nav a{
-  margin:0 15px;
-  text-decoration:none;
-  color:#333;
-  font-size:15px;
+.works-grid .work-card:nth-child(1):hover ~ .work-card {
+  transform: translateX(20px);
+}
+.works-grid .work-card:nth-child(2):hover ~ .work-card {
+  transform: translateX(20px);
+}
+.works-grid .work-card:nth-child(1):has(~ .work-card:nth-child(2):hover) {
+  transform: translateX(-20px);
+}
+.works-grid .work-card:nth-child(3):hover {
+  transform: scale(1.12);
+}
+.works-grid .work-card:nth-child(1):has(~ .work-card:nth-child(3):hover),
+.works-grid .work-card:nth-child(2):has(~ .work-card:nth-child(3):hover) {
+  transform: translateX(-20px);
 }
 
-/* 标题 */
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:30px;
+.container h1 {
+  transition: margin 0.4s ease;
+}
+.works-grid:has(.work-card:nth-child(1):hover) .container h1 {
+  margin-bottom: 30px !important;
 }
 
-h1{
-  text-align:center;
-  margin-bottom:30px;
-  font-weight:700;
+/* 弹窗平滑动画 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+.modal.show {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+#modal-img {
+  max-width: 90%;
+  max-height: 80vh;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 0.45s ease, opacity 0.4s ease;
+}
+.modal.show #modal-img {
+  transform: scale(1);
+  opacity: 1;
+}
+.modal .info {
+  margin-top: 12px;
+  text-align: center;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.45s ease 0.1s;
+}
+.modal.show .info {
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal .btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+#prev { left: 20px; }
+#next { right: 20px; }
+#close {
+  top: 20px;
+  right: 20px;
+  transform: none;
 }
 
-/* 作品网格 */
-.works-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:25px;
+/* 🔥 低饱和彩色线条 · 沿边框单向流动 */
+.work-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2.3px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
 }
-
-.work-card{
-  overflow:hidden;
-  border-radius:14px;
-  cursor:pointer;
-  transition:all 0.35s ease;
-  position:relative;
+.work-card:hover::before {
+  opacity: 1;
+  animation: borderFlow 2.5s linear infinite;
+  background: linear-gradient(90deg,
+  #a0d2eb,
+  #b8c9e8,
+  #d4c0e8,
+  #b6e1d2,
+  #a0d2eb
+);
+background-size: 200% 100%;
+  
 }
-
-.work-card img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  transition:transform 0.5s ease;
-}
-
-.work-card:hover img{
-  transform:scale(1.08);
-}
-
-/* 全屏放大 */
-.viewer{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.92);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  visibility:hidden;
-  transition:0.4s ease;
-  z-index:2000;
-}
-
-.viewer img{
-  max-width:92%;
-  max-height:85vh;
-  transform:scale(0.8);
-  transition:0.4s ease;
-}
-
-.viewer.show{
-  opacity:1;
-  visibility:visible;
-}
-
-.viewer.show img{
-  transform:scale(1);
-}
-
-/* 关闭按钮 */
-.close-btn{
-  position:absolute;
-  top:30px;
-  right:40px;
-  font-size:30px;
-  color:#fff;
-  cursor:pointer;
-}
-
-/* 音乐按钮 */
-.music-box{
-  text-align:center;
-  margin-bottom:30px;
-}
-
-.music-btn{
-  padding:8px 18px;
-  border-radius:20px;
-  border:none;
-  background:#a0d2eb;
-  color:#fff;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.music-btn:hover{
-  opacity:0.8;
+@keyframes borderFlow {
+  0%   { background-position: 0 0; }
+  100% { background-position: 200% 0; }
 }
 
 </style>
@@ -144,78 +276,141 @@ h1{
 <body>
 
 <nav>
-<a href=" ">首页</a >
-<a href="#">关于我</a >
-<a href="#">作品</a >
-<a href="#">联系</a >
+  <a href="index.html">首页</a >
+  <a href="about.html">关于我</a >
+  <div class="dropdown">
+    <a href="works.html">作品</a >
+    <div class="dropdown-content">
+      <a href="#minecraft">Minecraft</a >
+      <a href="#web">网页设计</a >
+      <a href="#3D 作品">3D 作品</a >
+    </div>
+  </div>
+  <a href="contact.html">联系</a >
 </nav>
 
 <div class="container">
-<h1>我的作品</h1>
+  <h1 style="font-family: 'Noto Serif TC', serif; font-weight: 700;">我的作品</h1>
+  <div class="works-grid">
 
-<div class="music-box">
-<button class="music-btn" onclick="toggleMusic()">🎵 播放音乐</button>
-<audio id="bgm" src="dynamic_soft_apporaching-1.mp3" loop></audio>
+    <div class="work-card" data-img="mine2.png" data-title="作品一" data-desc="上野站平视">
+      <img src="mine2.png">
+      <div class="work-info">
+        <h3>作品一</h3>
+        <span class="desc-font">上野站平视</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="mine1.png" data-title="作品二" data-desc="上野站俯视列车进站">
+      <img src="mine1.png">
+      <div class="work-info">
+        <h3>作品二</h3>
+        <span class="desc-font">上野站俯视列车进站</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="mine5.png" data-title="作品三" data-desc="庄园挑空客厅装饰">
+      <img src="mine5.png">
+      <div class="work-info">
+        <h3>作品三</h3>
+        <span class="desc-font">庄园挑空客厅装饰</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="raining.png" data-title="作品四" data-desc="雨中的川上站">
+      <img src="raining.png">
+      <div class="work-info">
+        <h3>作品四</h3>
+        <span class="desc-font">雨中的川上站</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="station2.png" data-title="作品五" data-desc="阳光明媚的川上站">
+      <img src="station2.png">
+      <div class="work-info">
+        <h3>作品五</h3>
+        <span class="desc-font">阳光明媚的川上站</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="station night.png" data-title="作品六" data-desc="夜晚中静谧的川上站">
+      <img src="station night.png">
+      <div class="work-info">
+        <h3>作品六</h3>
+        <span class="desc-font">夜晚中静谧的川上站</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="in buliding street.png" data-title="作品二" data-desc="雨中建造中的街道">
+      <img src="mine1.png">
+      <div class="work-info">
+        <h3>作品二</h3>
+        <span class="desc-font">雨中建造中的街道</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="looking up shangye.png" data-title="作品三" data-desc="仰视上野站">
+      <img src="mine5.png">
+      <div class="work-info">
+        <h3>作品三</h3>
+        <span class="desc-font">仰视上野站</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-img="old square.png" data-title="作品四" data-desc="复古的站前小广场">
+      <img src="raining.png">
+      <div class="work-info">
+        <h3>作品四</h3>
+        <span class="desc-font">复古的站前小广场</span>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="works-grid">
-
-<div class="work-card"><img src="mine2.png"></div>
-<div class="work-card"><img src="mine1.png"></div>
-<div class="work-card"><img src="mine5.png"></div>
-<div class="work-card"><img src="raining.png"></div>
-<div class="work-card"><img src="station2.png"></div>
-<div class="work-card"><img src="station-night.png"></div>
-
-</div>
-</div>
-
-<!-- 全屏查看 -->
-<div class="viewer" id="viewer">
-<span class="close-btn" onclick="closeViewer()">×</span>
-< img id="viewer-img">
+<div class="modal" id="modal">
+  <button class="btn" id="close">×</button>
+  <button class="btn" id="prev">←</button>
+  <button class="btn" id="next">→</button>
+  < img id="modal-img">
+  <div class="info">
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc"></p >
+  </div>
 </div>
 
 <script>
+  const cards = Array.from(document.querySelectorAll('.work-card'))
+  const modal = document.getElementById('modal')
+  const modalImg = document.getElementById('modal-img')
+  const modalTitle = document.getElementById('modal-title')
+  const modalDesc = document.getElementById('modal-desc')
+  const close = document.getElementById('close')
+  const prev = document.getElementById('prev')
+  const next = document.getElementById('next')
+  let current = 0
 
-/* 图片点击放大 */
-const cards = document.querySelectorAll(".work-card img");
-const viewer = document.getElementById("viewer");
-const viewerImg = document.getElementById("viewer-img");
-
-cards.forEach(img=>{
-  img.addEventListener("click",()=>{
-    viewerImg.src = img.src;
-    viewer.classList.add("show");
-  });
-});
-
-function closeViewer(){
-  viewer.classList.remove("show");
-}
-
-viewer.addEventListener("click",e=>{
-  if(e.target === viewer){
-    closeViewer();
+  function openModal(i) {
+    current = i
+    const card = cards[i]
+    modalImg.src = card.dataset.img
+    modalTitle.innerText = card.dataset.title
+    modalDesc.innerText = card.dataset.desc
+    modal.style.display = 'flex'
+    setTimeout(() => modal.classList.add('show'), 10)
   }
-});
 
-/* 音乐控制 */
-const audio = document.getElementById("bgm");
-const btn = document.querySelector(".music-btn");
-let playing = false;
-
-function toggleMusic(){
-  if(playing){
-    audio.pause();
-    btn.textContent="🎵 播放音乐";
-  }else{
-    audio.play();
-    btn.textContent="⏸ 暂停音乐";
+  function closeModal() {
+    modal.classList.remove('show')
+    setTimeout(() => {
+      modal.style.display = 'none'
+    }, 450)
   }
-  playing=!playing;
-}
 
+  cards.forEach((c,i) => c.onclick = () => openModal(i))
+  close.onclick = closeModal
+  prev.onclick = () => openModal((current-1+cards.length)%cards.length)
+  next.onclick = () => openModal((current+1)%cards.length)
 </script>
 
 </body>
