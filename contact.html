@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Betania Patmos', serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* 导航栏样式（和首页保持一致） */
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #00a8ff;
+        }
+
+        /* 下拉菜单样式（如果需要） */
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* 联系页主体 */
+        .contact-container {
+            max-width: 800px;
+            margin: 100px auto 0;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* 圆形头像 */
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 2rem;
+            border: 3px solid #00a8ff;
+        }
+
+        /* 联系方式列表 */
+        .contact-info {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .contact-info li {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: #00a8ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav>
+        <a href="index.html">首页</a>
+        <a href="index.html#about">关于我</a>
+        <div class="dropdown">
+            <a href="works.html" class="dropbtn">作品</a>
+            <div class="dropdown-content">
+                <a href="#minecraft">Minecraft 项目</a>
+                <a href="#web">网页开发</a>
+                <a href="#3d">3D 建模</a>
+                <a href="#game">游戏开发</a>
+            </div>
+        </div>
+        <a href="contact.html">联系</a>
+    </nav>
+
+    <!-- 联系页内容 -->
+    <div class="contact-container">
+        <h1>联系我</h1>
+        <!-- 圆形头像 -->
+        <img src="your-avatar.jpg" alt="头像" class="avatar">
+        <!-- 联系方式 -->
+        <ul class="contact-info">
+            <li>邮箱: <a href="mailto:your-email@example.com">your-email@example.com</a></li>
+            <li>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></li>
+            <li>Twitter: <a href="https://twitter.com/yourusername" target="_blank">@yourusername</a></li>
+            <li>微信: your-wechat-id</li>
+        </ul>
+    </div>
+</body>
+</html>
