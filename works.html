@@ -169,39 +169,43 @@
     }
 
     /* ————————————————————————————————— */
-    /* 聚光灯 + 毛玻璃 + 放大 最终整合版 */
-    /* ————————————————————————————————— */
-    .works-grid::before {
-      content: '';
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.12);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 1;
-      transition: opacity 0.3s ease;
-    }
+/* 最终版：放大 + 退开 + 模糊变暗全部一起 */
+/* ————————————————————————————————— */
+.works-grid::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
 
-    .works-grid:hover::before {
-      opacity: 1;
-    }
+.works-grid:hover::before {
+  opacity: 1;
+}
 
-    .works-grid:hover .work-card {
-      filter: blur(2.5px) brightness(0.82);
-      opacity: 0.8;
-    }
+/* 其他卡片：模糊 + 变暗 + 往旁边退 */
+.works-grid:hover .work-card {
+  filter: blur(2.5px) brightness(0.82);
+  opacity: 0.8;
+  transform: scale(0.92);
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
 
-    .works-grid .work-card:hover {
-      filter: blur(0) brightness(1);
-      opacity: 1;
-      transform: scale(1.08);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-      z-index: 2;
-    }
-
+/* 当前卡片：清晰 + 放大 + 突出 */
+.works-grid .work-card:hover {
+  filter: blur(0) brightness(1);
+  opacity: 1;
+  transform: scale(1.15);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+    
   </style>
 </head>
 
