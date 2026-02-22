@@ -67,16 +67,15 @@
             padding-top: 100px;
         }
 
-      .hero h1 {
-          font-size: 5.5rem;
-          font-weight: 700;
-          color: #ffffff;
-          transition: transform 0.3s ease;
-  
-  /* 下面这行就是你要的渐变阴影！ */
-          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-          font-family: 'Betania Patmos'
-      }.hero h1:hover { transform: scale(1.1); }
+     .hero h1 {
+    font-size: 5.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    font-family: 'Betania Patmos';
+    transition: transform 0.15s ease-out;
+    cursor: pointer;
+}
         
 
         /* 底部自我介绍 */
@@ -102,6 +101,11 @@
             color: #555;
         }
     </style>
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Betania+Patmos&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <!-- 顶部导航 -->
@@ -126,9 +130,19 @@
             如果你对我的项目感兴趣，或者想交流技术，欢迎通过下方的方式联系我。
         </p >
     </div>
+
+    <script>
+title.addEventListener("mousemove", (e) => {
+    const rect = title.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const moveX = (x - rect.width / 2) / 20;
+    const moveY = (y - rect.height / 2) / 20;
+
+    title.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+});
+</script>
+    
 </body>
 </html>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Betania+Patmos&display=swap" rel="stylesheet">
