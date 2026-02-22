@@ -168,9 +168,7 @@
       color: #666;
     }
 
-    /* ————————————————————————————————— */
-/* 最终版：放大 + 退开 + 模糊变暗全部一起 */
-/* ————————————————————————————————— */
+/* 聚光灯 + 移开避让 + 标题上浮 完美最终版 */
 .works-grid::before {
   content: '';
   position: fixed;
@@ -178,32 +176,58 @@
   top: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(0,0,0,0.12);
   opacity: 0;
   pointer-events: none;
   z-index: 1;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
-
 .works-grid:hover::before {
   opacity: 1;
 }
 
-/* 其他卡片：模糊 + 变暗 + 往旁边退 */
+/* 整体模糊变暗 */
 .works-grid:hover .work-card {
-  filter: blur(2.5px) brightness(0.82);
+  filter: blur(2px) brightness(0.90);
   opacity: 0.8;
-  transform: scale(0.92);
-  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.4s ease;
 }
 
-/* 当前卡片：清晰 + 放大 + 突出 */
+/* 当前卡片放大高亮 */
 .works-grid .work-card:hover {
   filter: blur(0) brightness(1);
   opacity: 1;
-  transform: scale(1.15);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  transform: scale(1.12);
+  box-shadow: 0 18px 32px rgba(0,0,0,0.18);
   z-index: 10;
+}
+
+/* 第1张悬停 → 2、3张右移 */
+.works-grid .work-card:nth-child(1):hover ~ .work-card {
+  transform: translateX(20px);
+}
+/* 第2张悬停 → 1左移、3右移 */
+.works-grid .work-card:nth-child(2):hover ~ .work-card {
+  transform: translateX(20px);
+}
+.works-grid .work-card:nth-child(1):has(~ .work-card:nth-child(2):hover) {
+  transform: translateX(-20px);
+}
+/* 第3张悬停 → 1、2张左移 */
+.works-grid .work-card:nth-child(3):hover {
+  transform: scale(1.12);
+}
+.works-grid .work-card:nth-child(1):has(~ .work-card:nth-child(3):hover),
+.works-grid .work-card:nth-child(2):has(~ .work-card:nth-child(3):hover) {
+  transform: translateX(-20px);
+}
+
+/* 第1张hover时标题往上抬一点 */
+.container h1 {
+  transition: margin 0.4s ease;
+}
+.works-grid:has(.work-card:nth-child(1):hover) .container h1 {
+  margin-bottom: 30px !important;
 }
     
   </style>
