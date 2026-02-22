@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..902&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -234,7 +234,7 @@
   transform: none;
 }
 
-/* ✅ 你要的：细彩色低饱和线条 沿边缘跑一圈 */
+/* 🔥 低饱和彩色线条 · 沿边框单向流动 */
 .work-card::before {
   content: '';
   position: absolute;
@@ -251,16 +251,16 @@
 }
 .work-card:hover::before {
   opacity: 1;
-  animation: borderLine 2.2s linear infinite;
+  animation: borderFlow 2.5s linear infinite;
   background: conic-gradient(
-    #7ed6df,
-    #f8b595,
-    #c7a4e4,
-    #64c4a1,
-    #7ed6df
+    #a0d2eb 0%,
+    #b8c9e8 25%,
+    #d4c0e8 50%,
+    #b6e1d2 75%,
+    #a0d2eb 100%
   );
 }
-@keyframes borderLine {
+@keyframes borderFlow {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
@@ -278,7 +278,7 @@
     <div class="dropdown-content">
       <a href="#minecraft">Minecraft</a>
       <a href="#web">网页设计</a>
-      <a href="#3d">3D 作品</a>
+      <a href="#3D 作品">3D 作品</a>
     </div>
   </div>
   <a href="contact.html">联系</a>
