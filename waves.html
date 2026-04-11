@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>数字海浪 | 柔和涟漪+底部渐变+点击镂空+完美弹性回缩</title> 
+    <title>数字海浪 | 柔和涟漪+底部渐变+点击镂空+完美弹性回缩+手机晃动感应</title> 
     <style> 
         body { 
             margin: 0; 
@@ -11,7 +11,7 @@
             background: #000; 
             color: #fff; 
             font-family: monospace; 
-            overflow: hidden; 
+            overflow: hidden;
         } 
         .container { 
             display: flex; 
@@ -131,6 +131,20 @@
         let time = 0;
         const clickEvents = [];
 
+        // ✅ 重力感应（手机晃动）
+        let tiltX = 0;
+        let tiltY = 0;
+        let smoothTiltX = 0;
+        let smoothTiltY = 0;
+
+        // 监听手机晃动
+        if (window.DeviceMotionEvent || window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', e => {
+                tiltX = e.gamma || 0; // 左右倾斜
+                tiltY = e.beta || 0;  // 前后倾斜
+            });
+        }
+
         function resizeCanvas() {
             w = canvas.width = canvas.parentElement.clientWidth;
             h = canvas.height = canvas.parentElement.clientHeight;
@@ -184,12 +198,25 @@
             ctx.fillRect(0,0,w,h);
             const now = Date.now();
 
+            // ✅ 平滑倾斜（防止抖动）
+            smoothTiltX += (tiltX - smoothTiltX) * 0.08;
+            smoothTiltY += (tiltY - smoothTiltY) * 0.08;
+
             for (let wave of waves) {
                 ctx.fillStyle = wave.color;
                 ctx.font = '11px monospace';
 
                 for (let x = 0; x < w; x += 6) {
-                    let y = wave.baseY + Math.sin(x * 0.008 + wave.phase) * Math.sin(time * 0.8) * wave.amp;
+                    // ✅ 核心：手机倾斜控制波浪偏移
+                    let offsetX = smoothTiltX * 1.2;
+                    let offsetY = smoothTiltY * 0.6;
+                    
+                    let y = wave.baseY 
+                          + Math.sin(x * 0.008 + wave.phase + offsetX*0.01) 
+                          * Math.sin(time * 0.8) 
+                          * wave.amp 
+                          + offsetY;
+
                     let show = true;
                     let rippleIntensity = 1;
 
@@ -197,7 +224,6 @@
                         const e = clickEvents[i];
                         const dt = (now - e.startTime) / 1800;
                         
-                        // 完美弹性曲线：扩散 → 回弹 → 衰减
                         const t = Math.min(dt, 2);
                         rippleIntensity = Math.max(0, 1 - t * t * 0.25);
                         
@@ -210,12 +236,11 @@
                         const dy = y - e.y;
                         const dist = Math.hypot(dx, dy);
                         
-                        // ✅ 完整回弹动画
                         let ring;
                         if (dt < 1) {
-                            ring = dt * 320; // 扩散
+                            ring = dt * 320;
                         } else {
-                            ring = 320 - (dt - 1) * 160; // 完整回缩
+                            ring = 320 - (dt - 1) * 160;
                         }
                         ring = Math.max(ring, 0);
                         const width = 50;
