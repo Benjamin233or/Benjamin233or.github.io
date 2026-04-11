@@ -18,7 +18,8 @@
             height: 100vh; 
         } 
         .wave-canvas { 
-            flex: 1; 
+            flex: 1;
+            touch-action: manipulation;
         } 
         .text-panel { 
             width: 320px; 
@@ -131,19 +132,31 @@
         let time = 0;
         const clickEvents = [];
 
-        // ✅ 重力感应（手机晃动）
+        // 重力感应变量
         let tiltX = 0;
         let tiltY = 0;
         let smoothTiltX = 0;
         let smoothTiltY = 0;
+        let motionEnabled = false;
 
-        // 监听手机晃动
-        if (window.DeviceMotionEvent || window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', e => {
-                tiltX = e.gamma || 0; // 左右倾斜
-                tiltY = e.beta || 0;  // 前后倾斜
-            });
+        // 必须用户点击后才能启动重力感应（浏览器规则）
+        function startMotion() {
+            if(motionEnabled) return;
+            motionEnabled = true;
+            
+            if (window.DeviceOrientationEvent) {
+                try {
+                    window.addEventListener('deviceorientation', function(e) {
+                        tiltX = e.gamma || 0;
+                        tiltY = e.beta || 0;
+                    }, true);
+                } catch(e) {}
+            }
         }
+
+        // 第一次点击/触摸启动
+        document.body.addEventListener('touchstart', startMotion, { once: true });
+        document.body.addEventListener('click', startMotion, { once: true });
 
         function resizeCanvas() {
             w = canvas.width = canvas.parentElement.clientWidth;
@@ -152,6 +165,7 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
+        // 点击事件
         canvas.addEventListener('click', function(e) {
             const rect = canvas.getBoundingClientRect();
             clickEvents.push({
@@ -198,24 +212,24 @@
             ctx.fillRect(0,0,w,h);
             const now = Date.now();
 
-            // ✅ 平滑倾斜（防止抖动）
-            smoothTiltX += (tiltX - smoothTiltX) * 0.08;
-            smoothTiltY += (tiltY - smoothTiltY) * 0.08;
+            // 强化平滑倾斜
+            smoothTiltX += (tiltX - smoothTiltX) * 0.12;
+            smoothTiltY += (tiltY - smoothTiltY) * 0.12;
 
             for (let wave of waves) {
                 ctx.fillStyle = wave.color;
                 ctx.font = '11px monospace';
 
                 for (let x = 0; x < w; x += 6) {
-                    // ✅ 核心：手机倾斜控制波浪偏移
-                    let offsetX = smoothTiltX * 1.2;
-                    let offsetY = smoothTiltY * 0.6;
+                    // 晃动强度大幅提高
+                    let offsetX = smoothTiltX * 2.5;
+                    let offsetY = smoothTiltY * 1.2;
                     
                     let y = wave.baseY 
-                          + Math.sin(x * 0.008 + wave.phase + offsetX*0.01) 
+                          + Math.sin(x * 0.008 + wave.phase + offsetX*0.02) 
                           * Math.sin(time * 0.8) 
                           * wave.amp 
-                          + offsetY;
+                          + offsetY * 1.5;
 
                     let show = true;
                     let rippleIntensity = 1;
