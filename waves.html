@@ -1,0 +1,186 @@
+<!DOCTYPE html> 
+ <html lang="zh"> 
+ <head> 
+     <meta charset="UTF-8"> 
+     <title>数字海浪 | 整片波浪左右平移</title> 
+     <style> 
+         body { 
+             margin: 0; 
+             padding: 0; 
+             background: #000; 
+             color: #fff; 
+             font-family: monospace; 
+             overflow: hidden; 
+         } 
+         .container { 
+             display: flex; 
+             height: 100vh; 
+         } 
+         .wave-canvas { 
+             flex: 1; 
+         } 
+         .text-panel { 
+             width: 320px; 
+             padding: 50px 30px; 
+             display: flex; 
+             flex-direction: column; 
+             justify-content: center; 
+         } 
+         h1 { 
+             font-size: 36px; 
+             margin-bottom: 8px; 
+             color: #e0f7ff; 
+         } 
+         .en-title { 
+             font-size: 18px; 
+             opacity: 0.8; 
+             margin-bottom: 40px; 
+             color: #a0d6ff; 
+         } 
+         .quote { 
+             font-size: 15px; 
+             line-height: 1.8; 
+             opacity: 0.85; 
+             margin-bottom: 25px; 
+             color: #c4e0ff; 
+         } 
+         .credit {
+             font-size: 13px;
+             opacity: 0.6;
+         }
+         .graphic-container {
+             position: absolute;
+             top: 0;
+             left: 20px;
+             z-index: 10;
+             pointer-events: none;
+         }
+         .illustration {
+             max-width: 200px;
+             max-height: 200px;
+             opacity: 0.9;
+         }
+         .slogan {
+             margin-top: 10px;
+             text-align: left;
+         }
+         .chinese-slogan {
+             font-size: 50px;
+             font-weight: bold;
+             color: #e0f7ff;
+             margin-bottom: 5px;
+             margin-left: 40px;
+         }
+         .english-slogan {
+             font-size: 14px;
+             color: #a0d6ff;
+             font-family: monospace;
+             margin-left: 40px;
+         }
+     </style> 
+ </head> 
+ <body> 
+     <div class="container"> 
+         <div class="graphic-container">
+             <!-- 这里放置你的PNG文件 -->
+             <img src="https://raw.githubusercontent.com/Benjamin233or/Benjamin233or.github.io/30ae659392fda0f016c6db57aaf4212059908b79/%E6%A0%A1%E5%90%8D.png" alt="School Name" class="illustration">
+             <div class="slogan">
+                 <div class="chinese-slogan">向海起航</div>
+                 <div class="english-slogan">Sail For dreams</div>
+             </div>
+         </div>
+         <canvas class="wave-canvas" id="waveCanvas"></canvas> 
+         <div class="text-panel"> 
+             <h1>数字海浪</h1> 
+             <div class="en-title">DIGITAL OCEAN WAVE</div> 
+             <div class="quote">I was set free.<br>I dissolved in the sea.<br>Became white sails and flying spray.</div> 
+             <div class="credit">TouchDesigner 动态海报复刻</div> 
+         </div> 
+     </div> 
+
+     <script> 
+         const canvas = document.getElementById('waveCanvas'); 
+         const ctx = canvas.getContext('2d'); 
+         let w, h; 
+         let time = 0; 
+
+         function resizeCanvas() { 
+             w = canvas.width = canvas.parentElement.clientWidth; 
+             h = canvas.height = canvas.parentElement.clientHeight; 
+         } 
+         resizeCanvas(); 
+         window.addEventListener('resize', resizeCanvas); 
+
+         // 海浪配置
+         const waveCount = 20;
+         const waves = [];
+         const chars = ['0','1','0','1','•','—','=','0','1'];
+         const colors = [];
+
+         // 生成渐变颜色
+         for (let i = 0; i < waveCount; i++) {
+             const opacity = 0.1 + (i / waveCount) * 0.4;
+             const r = 80 + (i / waveCount) * 100;
+             const g = 180 + (i / waveCount) * 55;
+             const b = 255;
+             colors.push(`rgba(${r}, ${g}, ${b}, ${opacity})`);
+         }
+
+         // 20层海浪（上下翻转，间距更疏，整体下移）
+         for (let i = 0; i < waveCount; i++) {
+             waves.push({
+                 baseY: h * 0.9 - i * 20,
+                 amp: 30 + i * 8,
+                 phase: Math.random() * 6,
+                 colorIndex: waveCount - 1 - i
+             });
+         }
+
+         function draw() {
+             time += 0.015;
+             ctx.fillStyle = "rgba(0,8,20,0.15)";
+             ctx.fillRect(0,0,w,h);
+
+             for (let wave of waves) {
+                 ctx.fillStyle = colors[wave.colorIndex];
+                 ctx.font = '11px monospace';
+
+                 // ✅ 核心：波浪形状 + 上下起伏（无左右平移，起伏强度适中）
+                 for (let x = 0; x < w; x += 6) {
+                     const y = wave.baseY + Math.sin(x * 0.01 + wave.phase) * Math.sin(time) * wave.amp * 0.4;
+                     const char = chars[Math.floor(Math.random() * chars.length)];
+                     ctx.fillText(char, x, y);
+
+                     // 添加泡沫浪花效果（上方）
+                     for (let i = 1; i <= 2; i++) {
+                         const foamY = y - i * 8;
+                         const foamOpacity = 0.4 / i;
+                         const foamSize = 8 - i * 2;
+                         if (foamSize > 0) {
+                             ctx.fillStyle = `rgba(255, 255, 255, ${foamOpacity})`;
+                             ctx.font = `${foamSize}px monospace`;
+                             const foamChar = chars[Math.floor(Math.random() * chars.length)];
+                             ctx.fillText(foamChar, x, foamY);
+                         }
+                     }
+
+                     // 添加拖尾效果（下方）
+                     for (let i = 1; i <= 5; i++) {
+                         const tailY = y + i * 10;
+                         const tailOpacity = 0.3 / i;
+                         const tailSize = 10 - i * 1.5;
+                         if (tailSize > 0) {
+                             ctx.fillStyle = `rgba(200, 230, 255, ${tailOpacity})`;
+                             ctx.font = `${tailSize}px monospace`;
+                             const tailChar = chars[Math.floor(Math.random() * chars.length)];
+                             ctx.fillText(tailChar, x, tailY);
+                         }
+                     }
+                 }
+             }
+             requestAnimationFrame(draw);
+         } 
+         draw(); 
+     </script> 
+ </body> 
+ </html>
