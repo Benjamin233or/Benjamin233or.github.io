@@ -2,6 +2,7 @@
  <html lang="zh"> 
  <head> 
      <meta charset="UTF-8"> 
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
      <title>数字海浪 | 整片波浪左右平移</title> 
      <style> 
          body { 
@@ -76,6 +77,39 @@
              color: #a0d6ff;
              font-family: monospace;
              margin-left: 40px;
+         }
+         
+         /* 响应式设计 */
+         @media (max-width: 768px) {
+             .graphic-container {
+                 top: 10px;
+                 left: 10px;
+             }
+             .illustration {
+                 max-width: 150px;
+                 max-height: 150px;
+             }
+             .chinese-slogan {
+                 font-size: 24px;
+                 margin-left: 15px;
+             }
+             .english-slogan {
+                 font-size: 10px;
+                 margin-left: 15px;
+             }
+             .text-panel {
+                 width: 180px;
+                 padding: 20px 15px;
+             }
+             h1 {
+                 font-size: 20px;
+             }
+             .en-title {
+                 font-size: 12px;
+             }
+             .quote {
+                 font-size: 10px;
+             }
          }
      </style> 
  </head> 
