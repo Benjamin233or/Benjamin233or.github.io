@@ -136,14 +136,46 @@
          const canvas = document.getElementById('waveCanvas'); 
          const ctx = canvas.getContext('2d'); 
          let w, h; 
-         let time = 0; 
+         let time = 0;
+         // 存储点击事件
+         const clickEvents = [];
 
-         function resizeCanvas() { 
-             w = canvas.width = canvas.parentElement.clientWidth; 
-             h = canvas.height = canvas.parentElement.clientHeight; 
-         } 
-         resizeCanvas(); 
-         window.addEventListener('resize', resizeCanvas); 
+         function resizeCanvas() {
+             w = canvas.width = canvas.parentElement.clientWidth;
+             h = canvas.height = canvas.parentElement.clientHeight;
+         }
+         resizeCanvas();
+         window.addEventListener('resize', resizeCanvas);
+
+         // 添加鼠标点击事件
+         canvas.addEventListener('click', function(e) {
+             const rect = canvas.getBoundingClientRect();
+             const x = e.clientX - rect.left;
+             const y = e.clientY - rect.top;
+             clickEvents.push({
+                 x: x,
+                 y: y,
+                 time: Date.now(),
+                 radius: 0,
+                 maxRadius: 100
+             });
+         });
+
+         // 添加触摸事件（支持手机）
+         canvas.addEventListener('touchstart', function(e) {
+             e.preventDefault();
+             const rect = canvas.getBoundingClientRect();
+             const touch = e.touches[0];
+             const x = touch.clientX - rect.left;
+             const y = touch.clientY - rect.top;
+             clickEvents.push({
+                 x: x,
+                 y: y,
+                 time: Date.now(),
+                 radius: 0,
+                 maxRadius: 100
+             });
+         }, { passive: false }); 
 
          // 海浪配置
          const waveCount = 20;
@@ -181,9 +213,39 @@
 
                  // ✅ 核心：波浪形状 + 上下起伏（无左右平移，起伏强度适中）
                  for (let x = 0; x < w; x += 6) {
-                     const y = wave.baseY + Math.sin(x * 0.01 + wave.phase) * Math.sin(time) * wave.amp * 0.4;
-                     const char = chars[Math.floor(Math.random() * chars.length)];
-                     ctx.fillText(char, x, y);
+                     let y = wave.baseY + Math.sin(x * 0.01 + wave.phase) * Math.sin(time) * wave.amp * 0.4;
+                     
+                     // 处理点击扩散效果
+                     let showChar = true;
+                     const currentTime = Date.now();
+                     for (let event of clickEvents) {
+                         const elapsed = (currentTime - event.time) / 150;
+                         const distance = Math.sqrt(Math.pow(x - event.x, 2) + Math.pow(y - event.y, 2));
+                         const radius = elapsed * 100;
+                         const maxRadius = 200;
+                         
+                         // 当点击扩散到达当前位置时，影响波浪的起伏
+                         if (distance < radius && radius < maxRadius) {
+                             // 计算影响强度，距离越近影响越大
+                             const influence = (1 - elapsed) * (1 - distance / radius) * 3;
+                             // 向外散开的效果
+                             const angle = Math.atan2(y - event.y, x - event.x);
+                             y += Math.sin(angle) * wave.amp * influence;
+                             // 同时影响X方向，增强散开效果
+                             x += Math.cos(angle) * 2 * influence;
+                             
+                             // 点击中心空白效果
+                             if (distance < radius * 0.6) {
+                                 showChar = false;
+                             }
+                         }
+                     }
+                     
+                     // 只在非空白区域显示字符
+                     if (showChar) {
+                         const char = chars[Math.floor(Math.random() * chars.length)];
+                         ctx.fillText(char, x, y);
+                     }
 
                      // 添加泡沫浪花效果（上方）
                      for (let i = 1; i <= 2; i++) {
