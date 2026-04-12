@@ -1,293 +1,197 @@
-<!DOCTYPE html> 
-<html lang="zh"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>数字海浪 | 柔和涟漪+底部渐变+点击镂空+完美弹性回缩+手机晃动感应</title> 
-    <style> 
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #000; 
-            color: #fff; 
-            font-family: monospace; 
-            overflow: hidden;
-        } 
-        .container { 
-            display: flex; 
-            height: 100vh; 
-        } 
-        .wave-canvas { 
-            flex: 1;
-            touch-action: manipulation;
-        } 
-        .text-panel { 
-            width: 320px; 
-            padding: 50px 30px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-        } 
-        h1 { 
-            font-size: 36px; 
-            margin-bottom: 8px; 
-            color: #e0f7ff; 
-        } 
-        .en-title { 
-            font-size: 18px; 
-            opacity: 0.8; 
-            margin-bottom: 40px; 
-            color: #a0d6ff; 
-        } 
-        .quote { 
-            font-size: 15px; 
-            line-height: 1.8; 
-            opacity: 0.85; 
-            margin-bottom: 25px; 
-            color: #c4e0ff; 
-        } 
-        .credit {
-            font-size: 13px;
-            opacity: 0.6;
-        }
-        .graphic-container {
-            position: absolute;
-            top: 0;
-            left: 20px;
-            z-index: 10;
-            pointer-events: none;
-        }
-        .illustration {
-            max-width: 200px;
-            max-height: 200px;
-            opacity: 0.9;
-        }
-        .slogan {
-            margin-top: 10px;
-            text-align: left;
-        }
-        .chinese-slogan {
-            font-size: 50px;
-            font-weight: bold;
-            color: #e0f7ff;
-            margin-bottom: 5px;
-            margin-left: 40px;
-        }
-        .english-slogan {
-            font-size: 14px;
-            color: #a0d6ff;
-            font-family: monospace;
-            margin-left: 40px;
-        }
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>新起点，在海大起航</title>
+<style>
+body{margin:0;padding:0;background:#000;color:#fff;font-family:monospace;overflow:hidden;}
+.container{display:flex;height:100vh;}
+.wave-canvas{flex:1;touch-action:manipulation;}
+.text-panel{width:320px;padding:50px 30px;display:flex;flex-direction:column;justify-content:center;}
+h1{font-size:36px;margin:8px 0;color:#e0f7ff;}
+.en-title{font-size:18px;opacity:0.8;margin-bottom:40px;color:#a0d6ff;}
+.quote{font-size:15px;line-height:1.8;opacity:0.85;margin-bottom:25px;color:#c4e0ff;}
+.credit{font-size:13px;opacity:0.6;}
+.graphic-container{position:absolute;top:0;left:20px;z-index:10;pointer-events:none;}
+.illustration{max-width:200px;max-height:200px;opacity:0.9;}
+.slogan{margin-top:10px;text-align:left;}
+.chinese-slogan{font-size:50px;font-weight:bold;color:#e0f7ff;margin:5px 0 0 40px;}
+.english-slogan{font-size:14px;color:#a0d6ff;font-family:monospace;margin-left:40px;}
+.tip{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:13px;color:#a0d6ff;opacity:0.45;pointer-events:none;font-family:monospace;z-index:5;}
+@media(max-width:768px){
+.graphic-container{top:10px;left:10px;}
+.illustration{max-width:150px;max-height:150px;}
+.chinese-slogan{font-size:24px;margin-left:15px;}
+.english-slogan{font-size:10px;margin-left:15px;}
+.text-panel{width:180px;padding:20px 15px;}
+h1{font-size:20px;}
+.en-title{font-size:12px;}
+.quote{font-size:10px;}
+.tip{font-size:11px;bottom:15px;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="graphic-container">
+<img src="Logo.png" alt="logo" class="illustration">
+<div class="slogan">
+<div class="chinese-slogan">向海起航</div>
+<div class="english-slogan">Sail For dreams</div>
+</div>
+</div>
+<canvas class="wave-canvas" id="waveCanvas"></canvas>
+<div class="text-panel">
+<h1>数字海浪</h1>
+<div class="en-title">DIGITAL OCEAN WAVE</div>
+<div class="quote">I was set free.<br>I dissolved in the sea.<br>Became white sails and flying spray.</div>
+<div class="credit">TouchDesigner 动态海报复刻</div>
+</div>
+</div>
+<div class="tip">请点击浪花 💧</div>
 
-        .tip {
-            position: absolute;
-            bottom: 22px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 13px;
-            color: #a0d6ff;
-            opacity: 0.45;
-            pointer-events: none;
-            font-family: monospace;
-            z-index: 5;
-        }
-        
-        @media (max-width: 768px) {
-            .graphic-container { top: 10px; left: 10px; }
-            .illustration { max-width: 150px; max-height: 150px; }
-            .chinese-slogan { font-size: 24px; margin-left: 15px; }
-            .english-slogan { font-size: 10px; margin-left: 15px; }
-            .text-panel { width: 180px; padding: 20px 15px; }
-            h1 { font-size: 20px; }
-            .en-title { font-size: 12px; }
-            .quote { font-size: 10px; }
-            .tip { font-size: 11px; bottom: 15px; }
-        }
-    </style> 
-</head> 
-<body> 
-    <div class="container"> 
-        <div class="graphic-container">
-            <img src="https://raw.githubusercontent.com/Benjamin233or/Benjamin233or.github.io/30ae659392fda0f016c6db57aaf4212059908b79/%E6%A0%A1%E5%90%8D.png" alt="School Name" class="illustration">
-            <div class="slogan">
-                <div class="chinese-slogan">向海起航</div>
-                <div class="english-slogan">Sail For dreams</div>
-            </div>
-        </div>
-        <canvas class="wave-canvas" id="waveCanvas"></canvas> 
-        <div class="text-panel"> 
-            <h1>数字海浪</h1> 
-            <div class="en-title">DIGITAL OCEAN WAVE</div> 
-            <div class="quote">I was set free.<br>I dissolved in the sea.<br>Became white sails and flying spray.</div> 
-            <div class="credit">TouchDesigner 动态海报复刻</div> 
-        </div>
-    </div>
-    <div class="tip">请点击浪花 💧</div>
+<script>
+const canvas=document.getElementById("waveCanvas");
+const ctx=canvas.getContext("2d");
+let w,h,time=0;
+const clickEvents=[];
 
-    <script> 
-        const canvas = document.getElementById('waveCanvas'); 
-        const ctx = canvas.getContext('2d'); 
-        let w, h; 
-        let time = 0;
-        const clickEvents = [];
+let tiltX=0,tiltY=0;
+let smoothTiltX=0,smoothTiltY=0;
+let motionEnabled=false;
 
-        // 重力感应变量
-        let tiltX = 0;
-        let tiltY = 0;
-        let smoothTiltX = 0;
-        let smoothTiltY = 0;
-        let motionEnabled = false;
+function startMotion(){
+if(motionEnabled) return;
+motionEnabled=true;
+if(window.DeviceOrientationEvent){
+window.addEventListener("deviceorientation",e=>{
+tiltX=e.gamma||0;
+tiltY=e.beta||0;
+},true);
+}
+}
+document.body.addEventListener("touchstart",startMotion,{once:true});
+document.body.addEventListener("click",startMotion,{once:true});
 
-        // 必须用户点击后才能启动重力感应（浏览器规则）
-        function startMotion() {
-            if(motionEnabled) return;
-            motionEnabled = true;
-            
-            if (window.DeviceOrientationEvent) {
-                try {
-                    window.addEventListener('deviceorientation', function(e) {
-                        tiltX = e.gamma || 0;
-                        tiltY = e.beta || 0;
-                    }, true);
-                } catch(e) {}
-            }
-        }
+function resizeCanvas(){
+w=canvas.width=canvas.parentElement.clientWidth;
+h=canvas.height=canvas.parentElement.clientHeight;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
 
-        // 第一次点击/触摸启动
-        document.body.addEventListener('touchstart', startMotion, { once: true });
-        document.body.addEventListener('click', startMotion, { once: true });
+canvas.addEventListener("click",e=>{
+const rect=canvas.getBoundingClientRect();
+clickEvents.push({x:e.clientX-rect.left,y:e.clientY-rect.top,s:Date.now()});
+});
+canvas.addEventListener("touchstart",e=>{
+e.preventDefault();
+const rect=canvas.getBoundingClientRect();
+const t=e.touches[0];
+clickEvents.push({x:t.clientX-rect.left,y:t.clientY-rect.top,s:Date.now()});
+},{passive:false});
 
-        function resizeCanvas() {
-            w = canvas.width = canvas.parentElement.clientWidth;
-            h = canvas.height = canvas.parentElement.clientHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+const waveCount=18;
+const waves=[];
+const chars=["0","1","•","—","=","0","1"];
+const colors=[];
+for(let i=0;i<waveCount;i++){
+let op=0.12+(i/waveCount)*0.35;
+let r=90+i*4,g=190+i*3;
+colors.push(`rgba(${r},${g},255,${op})`);
+}
+for(let i=0;i<waveCount;i++){
+waves.push({
+baseY:h*0.88-i*18,
+amp:12+i*2.5,
+phase:Math.random()*4,
+color:colors[waveCount-1-i]
+});
+}
 
-        // 点击事件
-        canvas.addEventListener('click', function(e) {
-            const rect = canvas.getBoundingClientRect();
-            clickEvents.push({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top,
-                startTime: Date.now(),
-            });
-        });
-        canvas.addEventListener('touchstart', e => {
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const t = e.touches[0];
-            clickEvents.push({
-                x: t.clientX - rect.left,
-                y: t.clientY - rect.top,
-                startTime: Date.now(),
-            });
-        }, { passive: false });
+// 放慢：总时长 4.2秒
+const DURATION = 4.2;
+const MAX_RADIUS = 320;
 
-        const waveCount = 18;
-        const waves = [];
-        const chars = ['0','1','•','—','=','0','1'];
-        const colors = [];
+function draw(){
+time+=0.012;
+ctx.fillStyle="rgba(0,10,22,0.06)";
+ctx.fillRect(0,0,w,h);
+const now=Date.now();
 
-        for (let i = 0; i < waveCount; i++) {
-            const op = 0.12 + (i / waveCount) * 0.35;
-            const r = 90 + i * 4;
-            const g = 190 + i * 3;
-            colors.push(`rgba(${r}, ${g}, 255, ${op})`);
-        }
+smoothTiltX+=(tiltX-smoothTiltX)*0.12;
+smoothTiltY+=(tiltY-smoothTiltY)*0.12;
 
-        for (let i = 0; i < waveCount; i++) {
-            waves.push({
-                baseY: h * 0.88 - i * 18,
-                amp: 12 + i * 2.5,
-                phase: Math.random() * 4,
-                color: colors[waveCount - 1 - i]
-            });
-        }
+for(let wave of waves){
+ctx.fillStyle=wave.color;
+ctx.font="11px monospace";
+for(let x=0;x<w;x+=6){
+let offX=smoothTiltX*2.5;
+let offY=smoothTiltY*1.2;
+let y=wave.baseY
++Math.sin(x*0.008+wave.phase+offX*0.02)*Math.sin(time*0.8)*wave.amp
++offY*1.5;
 
-        function draw() {
-            time += 0.012;
-            ctx.fillStyle = "rgba(0,10,22,0.12)";
-            ctx.fillRect(0,0,w,h);
-            const now = Date.now();
+let show=true;
 
-            // 强化平滑倾斜
-            smoothTiltX += (tiltX - smoothTiltX) * 0.12;
-            smoothTiltY += (tiltY - smoothTiltY) * 0.12;
+for(let i=clickEvents.length-1;i>=0;i--){
+let ev=clickEvents[i];
+let dt=(now-ev.s)/1000;
+if(dt>DURATION){
+clickEvents.splice(i,1);
+continue;
+}
 
-            for (let wave of waves) {
-                ctx.fillStyle = wave.color;
-                ctx.font = '11px monospace';
+let t = dt / DURATION;
+let radius;
+// 前半慢速扩散，后半慢速回缩到0
+if(t <= 0.5){
+  let k = t / 0.5;
+  radius = MAX_RADIUS * k;
+}else{
+  let k = (t - 0.5) / 0.5;
+  let ease = 1 - k*k;
+  radius = MAX_RADIUS * ease;
+}
+let decay = 1.0 - t;
+let rippleInt = decay;
 
-                for (let x = 0; x < w; x += 6) {
-                    // 晃动强度大幅提高
-                    let offsetX = smoothTiltX * 2.5;
-                    let offsetY = smoothTiltY * 1.2;
-                    
-                    let y = wave.baseY 
-                          + Math.sin(x * 0.008 + wave.phase + offsetX*0.02) 
-                          * Math.sin(time * 0.8) 
-                          * wave.amp 
-                          + offsetY * 1.5;
+let dx=x-ev.x, dy=y-ev.y;
+let dist=Math.hypot(dx,dy);
+let ring=radius;
+let width=50;
 
-                    let show = true;
-                    let rippleIntensity = 1;
+if(Math.abs(dist-ring)<width){
+let a=1-Math.abs(dist-ring)/width;
+y -= Math.sin((dist-ring)*0.25)*a*wave.amp*0.7*rippleInt;
+}
+if(dist < ring*0.85 && ring>0){
+  show=false;
+}
+}
+if(!show) continue;
 
-                    for (let i = clickEvents.length - 1; i >= 0; i--) {
-                        const e = clickEvents[i];
-                        const dt = (now - e.startTime) / 1800;
-                        
-                        const t = Math.min(dt, 2);
-                        rippleIntensity = Math.max(0, 1 - t * t * 0.25);
-                        
-                        if (rippleIntensity < 0.05) {
-                            clickEvents.splice(i, 1);
-                            continue;
-                        }
+let noiseFade=0.4+Math.random()*0.6;
+let baseCol=wave.color.replace(/[\d.]+\)$/,noiseFade+")");
+ctx.fillStyle=baseCol;
+let c=chars[Math.floor(Math.random()*chars.length)];
+ctx.fillText(c,x,y);
 
-                        const dx = x - e.x;
-                        const dy = y - e.y;
-                        const dist = Math.hypot(dx, dy);
-                        
-                        let ring;
-                        if (dt < 1) {
-                            ring = dt * 320;
-                        } else {
-                            ring = 320 - (dt - 1) * 160;
-                        }
-                        ring = Math.max(ring, 0);
-                        const width = 50;
-
-                        if (Math.abs(dist - ring) < width) {
-                            const a = 1 - Math.abs(dist - ring) / width;
-                            y -= Math.sin((dist - ring) * 0.25) * a * wave.amp * 0.7 * rippleIntensity;
-                        }
-                        
-                        if (dist < ring * 0.85 && ring > 0) {
-                            show = false;
-                        }
-                    }
-
-                    if(!show) continue;
-
-                    const c = chars[Math.random() * chars.length | 0];
-                    ctx.fillText(c, x, y);
-
-                    for (let i = 1; i <= 6; i++) {
-                        const offset = i * 10;
-                        const alpha = 0.25 / (i * 0.8);
-                        const size = 10 - i * 1.2;
-                        if (size < 3) break;
-                        ctx.fillStyle = wave.color.replace(/[\d\.]+\)$/, `${alpha})`);
-                        ctx.font = `${size}px monospace`;
-                        ctx.fillText(c, x, y + offset);
-                    }
-                }
-            }
-            requestAnimationFrame(draw);
-        } 
-        draw(); 
-    </script> 
-</body> 
+for(let i=1;i<=6;i++){
+let py=y+i*10;
+let a=0.25/(i*0.8)*noiseFade;
+let sz=10-i*1.2;
+if(sz<3) break;
+ctx.font=sz+"px monospace";
+ctx.fillStyle=wave.color.replace(/[\d.]+\)$/,a+")");
+ctx.fillText(c,x,py);
+}
+}
+}
+requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
 </html>
